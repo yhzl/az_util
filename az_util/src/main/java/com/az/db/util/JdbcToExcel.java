@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
@@ -24,6 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @version 1.0.0
  */
 public class JdbcToExcel {
+	private static Logger logger = LogManager.getLogger(JdbcToExcel.class);
 	public static final String excelUrl = "F:/study/";//excel地址
 	public static final String databaseName = "test";//库名
 	public static final int heightValue = 25;//行高
@@ -41,7 +44,7 @@ public class JdbcToExcel {
 	}
 	public static void main(String[] args)throws Exception {
 		long startTime = System.currentTimeMillis();
-		System.out.println("任务开始:");
+		logger.info("任务开始:");
 		int count = 1;
 		List<TableDTO> tableList = queryTable();
 		XSSFWorkbook workbook = new XSSFWorkbook();
@@ -49,7 +52,7 @@ public class JdbcToExcel {
 		OutputStream outputStream = new FileOutputStream(excelUrl+"/"+databaseName+".xlsx");
 		Sheet sheet = workbook.createSheet(databaseName);
 		for(TableDTO temp : tableList){
-			System.out.println("当前处理第"+(count++)+"个["+temp.getTableName()+"],共"+tableList.size()+"个.");
+			logger.info("当前处理第"+(count++)+"个["+temp.getTableName()+"],共"+tableList.size()+"个.");
 			List<ColumnDTO> columnList = queryColumn(temp.getTableName());
 			List<IndexDTO> indexList = queryIndex(temp.getTableName());
 			createExcelTable(sheet, temp, columnList, indexList);
@@ -58,7 +61,7 @@ public class JdbcToExcel {
 		outputStream.close();
 		conn.close();
 		long endTime = System.currentTimeMillis();
-		System.out.println("任务结束,总耗时:"+(endTime-startTime));
+		logger.info("任务结束,总耗时:"+(endTime-startTime));
 	}
 	//创建Excel表格
 	public static void createExcelTable(Sheet sheet, TableDTO tableDTO, List<ColumnDTO> columnList, List<IndexDTO> indexList){

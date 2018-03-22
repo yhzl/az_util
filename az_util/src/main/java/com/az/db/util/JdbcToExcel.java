@@ -1,4 +1,4 @@
-package com.az.util;
+package com.az.db.util;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;

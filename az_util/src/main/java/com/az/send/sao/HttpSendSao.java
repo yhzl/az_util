@@ -10,12 +10,14 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
+import org.apache.log4j.Logger;
 /**
  * 发送http请求公共类
  * @author 御魂之龙
  *
  */
 public class HttpSendSao {
+	private static Logger logger = Logger.getLogger(HttpSendSao.class);
 	/**
 	 * 使用get形式获取html
 	 * @param url 访问路径
@@ -37,6 +39,8 @@ public class HttpSendSao {
 				while((line = bufferedReader.readLine()) != null){
 					builder.append(line+"\r\n");
 				}
+			}else{
+				logger.error("访问失败，错误码:"+httpResponse.getStatusLine().getStatusCode());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

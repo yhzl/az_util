@@ -8,7 +8,7 @@ import java.util.List;
  *
  */
 public class JdbcToDTO {
-	static String[] tables = {"tb"};//需要转换字段的表名
+	static String[] tables = {"tb_sta"};//需要转换字段的表名
 	static String[] filterFields = {"create_date", "create_by", "updated_date", "updated_by"};//需要过滤的字段
 	public static void main(String[] args)throws Exception {
 		List<?> filterList = Arrays.asList(filterFields);

@@ -28,9 +28,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class JdbcToExcel {
 	private static Logger logger = LogManager.getLogger(JdbcToExcel.class);
 	public static final String excelUrl = "F:/study/";//excel地址
-	public static final String databaseName = "db_name";//库名
+	public static final String databaseName = "ts_sta";//库名
 	public static final int heightValue = 25;//行高
-	public static final String url="jdbc:mysql://localhost:3306/";
+	public static final String url="jdbc:mysql://192.168.31.138:3306/";
 	public static final String user="root"; //用户名
 	public static final String password="root";//密码
 	static Connection conn = null;

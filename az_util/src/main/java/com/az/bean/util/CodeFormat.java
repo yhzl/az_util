@@ -30,7 +30,8 @@ public class CodeFormat {
 			isParent = false;// 是否显示父字段名
 	private static String[] screenArr = { "regexp\\=\".*?\"", "groups\\=\\{.*?\\}" };
 	private static List<String> exitsList = new ArrayList<String>();
-	//欠缺groups过滤
+	//分组过滤
+	private static List<String> groupsList = Arrays.asList(new String[]{"StaVLD.StaAdd.class"});
 	public static void main(String[] args) throws Exception {
 		for(String temp : getStatusCode()){
 			System.out.println(temp);
@@ -198,6 +199,7 @@ public class CodeFormat {
 	 *            组名过滤
 	 * @return 错误码及描述
 	 */
+	@SuppressWarnings("unchecked")
 	public static String cueContent(ValidDTO validDTO, String... groupNames) {
 		String annoStr = validDTO.getAnno();
 		String cueStr = "";
@@ -227,6 +229,17 @@ public class CodeFormat {
 				break;
 			}
 			map.put(attrName, obj);
+		}
+		boolean flag = false;
+		if(null != map.get("groups")){
+			for(String temp : (List<String>)map.get("groups")){
+				if(groupsList.contains(temp)){
+					flag = true;
+				}
+			}
+		}
+		if(!flag && groupsList.size() > 0){
+			return cueStr;
 		}
 		switch (head) {
 		case "@NotEmpty":

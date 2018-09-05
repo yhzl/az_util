@@ -28,12 +28,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class JdbcToExcel {
 	private static Logger logger = LogManager.getLogger(JdbcToExcel.class);
 	public static final String excelUrl = "F:/study/";//excel地址
-	public static final String databaseName = "ts_sta";//库名
+	public static final String databaseName = "ts_forum";//库名
 	public static final int heightValue = 25;//行高
-	public static final String url="jdbc:mysql://192.168.31.138:3306/";
-	public static final String user="root"; //用户名
-	public static final String password="root";//密码
+	public static final String url="jdbc:mysql://192.168.31.30:3306/";
+	public static final String user="zhongxz"; //用户名
+	public static final String password="tushun2018";//密码
 	static Connection conn = null;
+	public static Connection getConn(){
+		return conn;
+	}
 	static{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -259,7 +262,7 @@ public class JdbcToExcel {
 		//font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);//加粗      
 		defualStyle.setFont(font);
 		
-		//自动换行
+		//自动换行 
 		defualStyle.setWrapText(true);
 		
 		//设置中文描述样式

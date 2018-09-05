@@ -20,4 +20,7 @@ public class ExPatternLayout extends PatternLayout {
 	protected PatternParser createPatternParser(String pattern) {
 		return new ExPatternParser(pattern);
 	}
+	public static void main(String[] args) {
+		
+	}
 }

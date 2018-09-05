@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,16 +26,20 @@ import com.az.bean.dto.ValidDTO;
  */
 public class CodeFormat {
 	private static Logger logger = Logger.getLogger(CodeFormat.class);
-	private static final String dirUrl = "C:/Users/DELL/git/ts-taxi/ts-taxi/ts-taxi-sta/ts-taxi-sta-comm/src/main/java/com/ts/taxi/sta/dto";
+	private static final String dirUrl = "C:/Users/DELL/git/ts-taxi/ts-taxi-forum/ts-taxi-forum-comm/src/main/java/com/ts/taxi/forum/back/dto/";
 	private static final boolean isField = false,// 是否显示字段名
 			isParent = false;// 是否显示父字段名
 	private static String[] screenArr = { "regexp\\=\".*?\"", "groups\\=\\{.*?\\}" };
 	private static List<String> exitsList = new ArrayList<String>();
 	//分组过滤
-	private static List<String> groupsList = Arrays.asList(new String[]{"StaVLD.StaAdd.class"});
+	private static List<String> groupsList = Arrays.asList(new String[]{"PasterVLD.PasterList.class"});
 	public static void main(String[] args) throws Exception {
-		for(String temp : getStatusCode()){
-			System.out.println(temp);
+		List<String> list = getStatusCode();
+		Collections.sort(list);
+		for(String temp : list){
+			if(null != temp && !temp.trim().equals("")){
+				System.out.println(temp);
+			}
 		}
 	}
 
@@ -247,7 +252,7 @@ public class CodeFormat {
 			break;
 		case "@Range":
 			try {
-				cueStr = "的长度需" + converSectionValue(map);
+				cueStr = "的值需" + converSectionValue(map);
 			} catch (Exception e) {
 				throw new Error(validDTO.getFieldName() + "出现min与max都没有的错误");
 			}
@@ -278,7 +283,7 @@ public class CodeFormat {
 			break;
 		case "@Size":
 			try {
-				cueStr = "的值需" + converSectionValue(map);
+				cueStr = "的长度" + converSectionValue(map);
 			} catch (Exception e) {
 				throw new Error(validDTO.getFieldName() + "出现min与max都没有的错误");
 			}

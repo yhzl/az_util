@@ -25,6 +25,8 @@ import com.az.bean.dto.ValidDTO;
  *
  */
 public class CodeFormat {
+	//优点:无需引入相关类包
+	//缺点:groups需放在最后面，不能出现换行
 	private static Logger logger = Logger.getLogger(CodeFormat.class);
 	private static final String dirUrl = "C:/Users/DELL/git/ts-taxi/ts-taxi-forum/ts-taxi-forum-comm/src/main/java/com/ts/taxi/forum/back/dto/";
 	private static final boolean isField = false,// 是否显示字段名

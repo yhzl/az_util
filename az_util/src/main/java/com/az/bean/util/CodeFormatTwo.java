@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -147,6 +148,7 @@ public class CodeFormatTwo {
 				}
 			}
 		}
+		Collections.sort(codeMsgList);
 		for (CodeMsg codeMsg : codeMsgList) {
 			codeMsg.setNote(noteMap.get(codeMsg.getClsName()).get(codeMsg.getName()));
 			codeMsg.setDesc(settingDesc(codeMsg));
@@ -362,7 +364,7 @@ public class CodeFormatTwo {
 	}
 }
 
-class CodeMsg implements Serializable {
+class CodeMsg implements Serializable,Comparable<CodeMsg> {
 
 	private static final long serialVersionUID = -6928329857947067899L;
 	private String anno;
@@ -494,5 +496,11 @@ class CodeMsg implements Serializable {
 
 	public String toCodeString() {
 		return code + "=" + desc;
+	}
+
+	@Override
+	public int compareTo(CodeMsg o) {
+		// TODO Auto-generated method stub
+		return code.compareTo(o.getCode());
 	}
 }

@@ -25,8 +25,6 @@ import java.util.jar.JarFile;
 
 import org.apache.log4j.Logger;
 
-import com.az.bean.dto.ValidDTO;
-
 public class CodeFormatTwo {
 	private static Logger logger = Logger.getLogger(CodeFormat.class);
 	private static final String dirUrl = "com.rl.op.user.base.dto";
@@ -117,11 +115,17 @@ public class CodeFormatTwo {
 					}
 					obj = invokeAnno(annotation, "max");
 					if (null != obj) {
-						codeMsg.setMax(Integer.valueOf(obj.toString()));
+						if(obj.toString().equals("2147483647") || obj.toString().equals("9223372036854775807")) {
+							
+						}else {
+							codeMsg.setMax(Long.valueOf(obj.toString()));
+						}
 					}
 					obj = invokeAnno(annotation, "min");
 					if (null != obj) {
-						codeMsg.setMin(Integer.valueOf(obj.toString()));
+						if(!"0".equals(obj.toString())) {
+							codeMsg.setMin(Integer.valueOf(obj.toString()));
+						}
 					}
 					obj = invokeAnno(annotation, "regexp");
 					if (null != obj) {
@@ -146,10 +150,11 @@ public class CodeFormatTwo {
 		for (CodeMsg codeMsg : codeMsgList) {
 			codeMsg.setNote(noteMap.get(codeMsg.getClsName()).get(codeMsg.getName()));
 			codeMsg.setDesc(settingDesc(codeMsg));
-			//过滤条件等都在这写
-			System.out.println(codeMsg.getCode()+"="+codeMsg.getNote()+codeMsg.getDesc());
+			// 过滤条件等都在这写
+			System.out.println(codeMsg.getCode() + "=" + codeMsg.getNote() + codeMsg.getDesc());
 		}
 	}
+
 	public static String settingDesc(CodeMsg codeMsg) {
 		String cueStr = "";
 		switch (codeMsg.getAnno()) {
@@ -195,8 +200,7 @@ public class CodeFormatTwo {
 			}
 			break;
 		case "@Digits":
-			cueStr = "的值需为" + CodeFormat.getShap(codeMsg.getInteger()) + "." + CodeFormat.getShap(codeMsg.getFraction().toString())
-					+ "格式";
+			cueStr = "的值需为" + getShap(codeMsg.getInteger()) + "." + getShap(codeMsg.getFraction().toString()) + "格式";
 			break;
 		case "@Past":
 			cueStr = "必须为一个过去的日期";
@@ -223,6 +227,7 @@ public class CodeFormatTwo {
 		}
 		return cueStr;
 	}
+
 	public static String converSectionValue(CodeMsg codeMsg) throws Exception {
 		String resStr = "";
 		Object max = codeMsg.getMax();
@@ -257,6 +262,20 @@ public class CodeFormatTwo {
 	public static String getAnnoOpen(String className) {
 		String[] arr = className.split("\\.");
 		return "@" + arr[arr.length - 1];
+	}
+
+	/**
+	 * 获取符号#
+	 * 
+	 * @param length 字符串类型长度
+	 * @return 生成的符号#
+	 */
+	public static String getShap(String length) {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < Integer.valueOf(length); i++) {
+			builder.append("#");
+		}
+		return builder.toString();
 	}
 
 	/**
@@ -351,7 +370,7 @@ class CodeMsg implements Serializable {
 	private String code;
 	private String name;
 	private String desc;
-	private Integer max;
+	private Long max;
 	private Integer min;
 	private String regexp;
 	private String clsName;
@@ -359,7 +378,16 @@ class CodeMsg implements Serializable {
 	private String integer;
 	private String fraction;
 	private Class<?>[] groups;
+
 	public CodeMsg() {
+	}
+
+	public Long getMax() {
+		return max;
+	}
+
+	public void setMax(Long max) {
+		this.max = max;
 	}
 
 	public String getCode() {
@@ -384,14 +412,6 @@ class CodeMsg implements Serializable {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
-	}
-
-	public Integer getMax() {
-		return max;
-	}
-
-	public void setMax(Integer max) {
-		this.max = max;
 	}
 
 	public Integer getMin() {
@@ -433,6 +453,7 @@ class CodeMsg implements Serializable {
 	public void setClsName(String clsName) {
 		this.clsName = clsName;
 	}
+
 	public String getValue() {
 		return value;
 	}
@@ -456,6 +477,7 @@ class CodeMsg implements Serializable {
 	public void setFraction(String fraction) {
 		this.fraction = fraction;
 	}
+
 	public String getNote() {
 		return note;
 	}

@@ -28,7 +28,7 @@ import org.apache.log4j.Logger;
 
 public class CodeFormatTwo {
 	private static Logger logger = Logger.getLogger(CodeFormat.class);
-	private static final String dirUrl = "com.rl.op.user.base.dto";
+	private static final String dirUrl = "com.amzcs.manage.dto";
 	private static final boolean isField = false, // 是否显示字段名
 			isParent = false;// 是否显示父字段名
 	// 分组过滤
@@ -50,11 +50,14 @@ public class CodeFormatTwo {
 		for (String temp : fileList) {
 			String path = temp.replaceAll("target\\\\classes", "src\\\\main\\\\java").replaceAll(".class", ".java");
 			File file = new File(path);
-			String className = file.getName().split("\\.")[0];
-			InputStream inputStream = null;
-			InputStreamReader inputStreamReader = null;
-			BufferedReader bufferedReader = null;
-			try {
+					String className = file.getName().split("\\.")[0];
+					InputStream inputStream = null;
+					InputStreamReader inputStreamReader = null;
+					BufferedReader bufferedReader = null;
+					try {
+						if(file.getName().contains("$")){
+							continue;
+				}
 				inputStream = new FileInputStream(file);
 				inputStreamReader = new InputStreamReader(inputStream);
 				bufferedReader = new BufferedReader(inputStreamReader);
@@ -92,7 +95,7 @@ public class CodeFormatTwo {
 					inputStreamReader.close();
 					inputStream.close();
 				} catch (Exception e2) {
-					e2.printStackTrace();
+					//e2.printStackTrace();
 				}
 			}
 		}
@@ -153,7 +156,9 @@ public class CodeFormatTwo {
 			codeMsg.setNote(noteMap.get(codeMsg.getClsName()).get(codeMsg.getName()));
 			codeMsg.setDesc(settingDesc(codeMsg));
 			// 过滤条件等都在这写
-			System.out.println(codeMsg.getCode() + "=" + codeMsg.getNote() + codeMsg.getDesc());
+			//if(Arrays.asList(codeMsg.getGroups()).contains(OprNotifyMsgVLD.Add.class)) {
+				System.out.println(codeMsg.getCode() + "=" + codeMsg.getNote() + codeMsg.getDesc());
+			//}
 		}
 	}
 

@@ -8,15 +8,15 @@ import java.util.List;
  *
  */
 public class JdbcToDTO {
-	static String[] tables = {"tb_paster_detail"};//需要转换字段的表名
-	static String[] filterFields = {"create_date", "create_by", "updated_date", "updated_by"};//需要过滤的字段
+	static String[] tables = {"gift_apply"};//需要转换字段的表名
+	static String[] filterFields = {"create_date", "create_by", "updated_date", "updated_by", "create_at", "updated_at", "update_date"};//需要过滤的字段
 	public static void main(String[] args)throws Exception {
 		List<?> filterList = Arrays.asList(filterFields);
 		for(String tableName : tables){
 			List<ColumnDTO> columnList = JdbcToExcel.queryColumn(tableName);
 			for(ColumnDTO temp: columnList){
 				if(!filterList.contains(temp.getColumnName())){
-					System.out.println("private "+(temp.getColumnType().contains("int")?"Integer":"String")+" "+removeUnderline(temp.getColumnName())+";//"+temp.getColumnDesc());
+					System.out.println("private "+(temp.getColumnType().contains("int")?(temp.getColumnType().contains("big")?"Long":"Integer"):"String")+" "+temp.getColumnName()+";//"+temp.getColumnDesc());
 				}
 			}
 		}

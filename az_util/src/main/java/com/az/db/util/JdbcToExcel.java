@@ -28,11 +28,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class JdbcToExcel {
 	private static Logger logger = LogManager.getLogger(JdbcToExcel.class);
 	public static final String excelUrl = "F:/study/";//excel地址
-	public static final String databaseName = "ts_forum";//库名
+	public static final String databaseName = "amzcs_two";//库名
 	public static final int heightValue = 25;//行高
-	public static final String url="jdbc:mysql://192.168.31.30:3306/";
-	public static final String user="zhongxz"; //用户名
-	public static final String password="tushun2018";//密码
+	public static final String url="jdbc:mysql://localhost:3306/";
+	public static final String user="root"; //用户名
+	public static final String password="root";//密码
 	static Connection conn = null;
 	public static Connection getConn(){
 		return conn;
@@ -51,12 +51,12 @@ public class JdbcToExcel {
 		int count = 1;
 		List<TableDTO> tableList = queryTable();
 		XSSFWorkbook workbook = new XSSFWorkbook();
-		setCellStyle(workbook);
-		OutputStream outputStream = new FileOutputStream(excelUrl+"/"+databaseName+".xlsx");
-		Sheet sheet = workbook.createSheet(databaseName);
-		for(TableDTO temp : tableList){
-			logger.info("当前处理第"+(count++)+"个["+temp.getTableName()+"],共"+tableList.size()+"个.");
-			List<ColumnDTO> columnList = queryColumn(temp.getTableName());
+			setCellStyle(workbook);
+			OutputStream outputStream = new FileOutputStream(excelUrl+"/"+databaseName+".xlsx");
+			Sheet sheet = workbook.createSheet(databaseName);
+			for(TableDTO temp : tableList){
+				logger.info("当前处理第"+(count++)+"个["+temp.getTableName()+"],共"+tableList.size()+"个.");
+				List<ColumnDTO> columnList = queryColumn(temp.getTableName());
 			List<IndexDTO> indexList = queryIndex(temp.getTableName());
 			createExcelTable(sheet, temp, columnList, indexList);
 		}
